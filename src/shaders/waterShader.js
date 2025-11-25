@@ -2,6 +2,7 @@ export const waterVertexShader = `
   uniform float uTime;
   uniform vec2 uMouse;
   uniform float uIntensity;
+  uniform float uScroll;
   
   varying vec2 vUv;
   varying float vElevation;
@@ -47,15 +48,20 @@ export const waterVertexShader = `
     // Distance from mouse
     float distanceFromMouse = distance(uv, uMouse);
     
-    // Create ripple effect from mouse with multiple frequencies
-    float mouseRipple = sin(distanceFromMouse * 15.0 - uTime * 3.0) * 0.03;
-    mouseRipple += sin(distanceFromMouse * 25.0 - uTime * 4.0) * 0.015;
-    mouseRipple *= smoothstep(0.5, 0.0, distanceFromMouse);
+    // Create enhanced ripple effect from mouse with multiple frequencies
+    float mouseRipple = sin(distanceFromMouse * 12.0 - uTime * 3.5) * 0.08;
+    mouseRipple += sin(distanceFromMouse * 20.0 - uTime * 5.0) * 0.05;
+    mouseRipple += sin(distanceFromMouse * 30.0 - uTime * 6.0) * 0.03;
+    mouseRipple *= smoothstep(0.8, 0.0, distanceFromMouse);
     
     // Flowing water waves with multiple octaves
-    float wave1 = sin(pos.x * 2.0 + uTime * 0.5) * 0.02;
-    float wave2 = sin(pos.y * 1.5 - uTime * 0.3) * 0.015;
-    float wave3 = sin((pos.x + pos.y) * 1.8 + uTime * 0.4) * 0.012;
+    float wave1 = sin(pos.x * 2.0 + uTime * 0.5 + uScroll * 3.0) * 0.02;
+    float wave2 = sin(pos.y * 1.5 - uTime * 0.3 + uScroll * 2.5) * 0.015;
+    float wave3 = sin((pos.x + pos.y) * 1.8 + uTime * 0.4 + uScroll * 4.0) * 0.012;
+    
+    // Scroll-based wave displacement
+    float scrollWave = sin(pos.y * 4.0 - uScroll * 10.0) * 0.025;
+    scrollWave += cos(pos.x * 3.0 + uScroll * 8.0) * 0.02;
     
     // Multiple noise layers for organic movement
     float noise1 = snoise(vec2(pos.x * 3.0 + uTime * 0.2, pos.y * 3.0)) * 0.01;
@@ -63,14 +69,14 @@ export const waterVertexShader = `
     float noise3 = snoise(vec2(pos.x * 5.0 + uTime * 0.3, pos.y * 4.0 - uTime * 0.2)) * 0.008;
     float noise4 = snoise(vec2(pos.x * 8.0 - uTime * 0.1, pos.y * 6.0 + uTime * 0.15)) * 0.005;
     
-    // Mouse influence - pull vertices towards mouse
+    // Enhanced mouse influence - pull vertices towards mouse
     vec2 toMouse = uMouse - uv;
     float mousePull = length(toMouse);
-    mousePull = smoothstep(0.3, 0.0, mousePull) * 0.05;
+    mousePull = smoothstep(0.5, 0.0, mousePull) * 0.12;
     pos.xy += toMouse * mousePull;
     
-    // Combine all effects with additional detail
-    float elevation = wave1 + wave2 + wave3 + noise1 + noise2 + noise3 + noise4 + mouseRipple;
+    // Combine all effects with additional detail and scroll
+    float elevation = wave1 + wave2 + wave3 + noise1 + noise2 + noise3 + noise4 + mouseRipple + scrollWave;
     pos.z += elevation * uIntensity;
     
     vElevation = elevation;
@@ -89,9 +95,10 @@ export const waterFragmentShader = `
   varying float vElevation;
   
   void main() {
-    // Distance from mouse for glow effect
+    // Distance from mouse for enhanced glow effect
     float distanceFromMouse = distance(vUv, uMouse);
-    float mouseGlow = smoothstep(0.3, 0.0, distanceFromMouse) * 0.4;
+    float mouseGlow = smoothstep(0.5, 0.0, distanceFromMouse) * 0.7;
+    mouseGlow += smoothstep(0.3, 0.0, distanceFromMouse) * 0.5;
     
     // Color based on elevation with smoother mixing
     float colorMix = clamp(vElevation * 4.0 + 0.5, 0.0, 1.0);
