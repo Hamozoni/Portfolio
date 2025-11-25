@@ -20,8 +20,7 @@ const ProjectCard = ({ index, name, description, tags, image, live, source, acce
                     scale: 1.02,
                     speed: 400,
                 }}
-                className='border border-white/5 rounded-3xl overflow-hidden shadow-card'
-                style={{ backgroundColor: 'color-mix(in srgb, var(--color-card) 95%, transparent)' }}
+                className='glass-card rounded-3xl overflow-hidden shadow-card'
             >
                 <div className='relative w-full h-[230px]'>
                     <img
@@ -51,8 +50,8 @@ const ProjectCard = ({ index, name, description, tags, image, live, source, acce
                 </div>
 
                 <div className='p-6 space-y-4'>
-                        <div>
-                            <p className="text-sm uppercase tracking-[0.25em] text-white/50">{labels.caseStudy}</p>
+                    <div>
+                        <p className="text-sm uppercase tracking-[0.25em] text-white/50">{labels.caseStudy}</p>
                         <h3 className='text-white font-bold text-[24px]'>{name}</h3>
                     </div>
                     <p className='text-secondary text-[15px] leading-relaxed'>

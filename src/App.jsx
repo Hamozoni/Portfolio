@@ -6,10 +6,14 @@ import Contact from './components/ui/Contact'
 import Experience from './components/ui/Experience'
 import Footer from './components/ui/Footer'
 import Scene from './components/canvas/Scene'
-import Stars from './components/canvas/Stars'
-import Nebula from './components/canvas/Nebula'
+import OceanFloor from './components/canvas/OceanFloor'
+import Caustics from './components/canvas/Caustics'
+import UnderwaterPlants from './components/canvas/UnderwaterPlants'
+import FloatingParticles from './components/canvas/FloatingParticles'
 import Hero3D from './components/canvas/Hero3D'
 import WaterShaderPlane from './components/canvas/WaterShaderPlane'
+import Shark from './components/canvas/Shark'
+import FishSchool from './components/canvas/FishSchool'
 import Navbar from './components/ui/Navbar'
 import Hero from './components/ui/Hero'
 import { useTranslation } from './context/TranslationContext'
@@ -37,11 +41,25 @@ function App() {
             <Hero />
           </div>
           <Scene>
-            <ambientLight intensity={0.5} />
-            <directionalLight position={[10, 10, 5]} intensity={1} />
-            <Nebula />
-            <Stars />
+            {/* Underwater lighting */}
+            <ambientLight intensity={0.3} color="#4a90e2" />
+            <directionalLight position={[0, 10, 5]} intensity={1.2} color="#80deea" castShadow />
+            <pointLight position={[5, 2, -3]} intensity={0.5} color="#26c6da" />
+
+            {/* Ocean environment */}
+            <Caustics />
+            <OceanFloor />
+            <UnderwaterPlants />
+            <FloatingParticles />
+
+            {/* Marine life */}
+            <FishSchool />
+            <Shark />
+
+            {/* Hero element */}
             <Hero3D />
+
+            {/* Water surface */}
             <WaterShaderPlane />
           </Scene>
 

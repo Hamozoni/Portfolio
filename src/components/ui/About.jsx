@@ -11,10 +11,7 @@ const ServiceCard = ({ index, title, description }) => (
         className='w-full sm:w-[300px]'
     >
         <div className='green-pink-gradient p-[1px] rounded-[24px] shadow-card h-full'>
-            <div
-                className='rounded-[24px] px-8 py-10 flex flex-col gap-4 h-full border border-white/5'
-                style={{ backgroundColor: 'color-mix(in srgb, var(--color-card) 95%, transparent)' }}
-            >
+            <div className='glass-card rounded-[24px] px-8 py-10 flex flex-col gap-4 h-full'>
                 <h3 className='text-white text-2xl font-semibold text-left'>
                     {title}
                 </h3>
@@ -55,7 +52,7 @@ const About = () => {
                 ))}
             </div>
 
-            <div className="glass-card rounded-3xl p-8 border border-white/5 space-y-8">
+            <div className="glass-card rounded-3xl p-8 space-y-8">
                 <div className="flex flex-col lg:flex-row gap-6 lg:items-center justify-between">
                     <div>
                         <p className="text-sm uppercase tracking-[0.3em] text-white/60">{aboutCopy.toolbeltLabel}</p>
@@ -72,7 +69,7 @@ const About = () => {
 
                 <div className="grid gap-6 md:grid-cols-3">
                     {aboutCopy.principles.map((principle) => (
-                        <div key={principle.title} className="rounded-2xl border border-white/5 bg-white/5 p-5">
+                        <div key={principle.title} className="glass-card rounded-2xl p-5">
                             <h4 className="text-white text-lg font-semibold mb-2">{principle.title}</h4>
                             <p className="text-white/70 text-sm leading-relaxed">{principle.copy}</p>
                         </div>

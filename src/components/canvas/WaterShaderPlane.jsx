@@ -2,12 +2,10 @@ import { useRef, useMemo, useEffect, useState } from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
 import { waterVertexShader, waterFragmentShader } from '../../shaders/waterShader'
 import * as THREE from 'three'
-import { useTheme } from '../../context/ThemeContext'
 
 const WaterShaderPlane = () => {
     const meshRef = useRef()
     const { viewport } = useThree()
-    const { activeTheme } = useTheme()
     const [scrollY, setScrollY] = useState(0)
 
     // Track scroll position
@@ -26,17 +24,17 @@ const WaterShaderPlane = () => {
         return () => window.removeEventListener('scroll', handleScroll)
     }, [])
 
-    // Create shader material with uniforms
+    // Create shader material with uniforms - ocean colors
     const uniforms = useMemo(
         () => ({
             uTime: { value: 0 },
             uMouse: { value: new THREE.Vector2(0.5, 0.5) },
             uScroll: { value: 0 },
             uIntensity: { value: 1.5 },
-            uColorDeep: { value: new THREE.Color(activeTheme?.colors?.primary || '#050816') },
-            uColorShallow: { value: new THREE.Color(activeTheme?.meta?.accent || '#915eff') },
+            uColorDeep: { value: new THREE.Color('#0a2540') },
+            uColorShallow: { value: new THREE.Color('#1e88a8') },
         }),
-        [activeTheme]
+        []
     )
 
     useFrame(({ clock, mouse }) => {
@@ -55,14 +53,6 @@ const WaterShaderPlane = () => {
 
             // Faster interpolation to mouse position for better responsiveness
             meshRef.current.material.uniforms.uMouse.value.lerp(mouseUV, 0.1)
-
-            // Update colors if theme changes
-            meshRef.current.material.uniforms.uColorDeep.value.set(
-                activeTheme?.colors?.primary || '#050816'
-            )
-            meshRef.current.material.uniforms.uColorShallow.value.set(
-                activeTheme?.meta?.accent || '#915eff'
-            )
         }
     })
 

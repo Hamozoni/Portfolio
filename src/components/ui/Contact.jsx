@@ -51,7 +51,7 @@ const Contact = () => {
                 initial={{ x: -80, opacity: 0 }}
                 whileInView={{ x: 0, opacity: 1 }}
                 transition={{ duration: 0.8 }}
-                className='flex-[0.75] glass-card rounded-[32px] p-8 border border-white/5 space-y-8'
+                className='flex-[0.75] glass-card rounded-[32px] p-8 space-y-8'
             >
                 <div>
                     <p className="text-secondary uppercase tracking-[0.3em] text-xs sm:text-sm">{contactCopy.label}</p>
@@ -65,7 +65,7 @@ const Contact = () => {
                     {contactCopy.info.map(({ title, value, href }, index) => {
                         const Icon = infoIcons[index];
                         return (
-                            <div key={title} className="rounded-2xl border border-white/10 bg-white/5 p-4">
+                            <div key={title} className="glass-card rounded-2xl p-4">
                                 <div className="flex items-center gap-3">
                                     <Icon className="text-white/70" size={20} />
                                     <p className="text-white/60 text-xs uppercase tracking-[0.3em]">{title}</p>
