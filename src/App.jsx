@@ -7,6 +7,7 @@ import Experience from './components/ui/Experience'
 import Footer from './components/ui/Footer'
 import Scene from './components/canvas/Scene'
 import Stars from './components/canvas/Stars'
+import Nebula from './components/canvas/Nebula'
 import Hero3D from './components/canvas/Hero3D'
 import WaterShaderPlane from './components/canvas/WaterShaderPlane'
 import Navbar from './components/ui/Navbar'
@@ -35,13 +36,14 @@ function App() {
             <Navbar />
             <Hero />
           </div>
-        <Scene>
-          <ambientLight intensity={0.5} />
-          <directionalLight position={[10, 10, 5]} intensity={1} />
-          <Stars />
-          <Hero3D />
-          <WaterShaderPlane />
-        </Scene>
+          <Scene>
+            <ambientLight intensity={0.5} />
+            <directionalLight position={[10, 10, 5]} intensity={1} />
+            <Nebula />
+            <Stars />
+            <Hero3D />
+            <WaterShaderPlane />
+          </Scene>
 
           <About />
           <Experience />

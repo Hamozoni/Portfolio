@@ -10,6 +10,9 @@ const Scene = ({ children }) => {
                 gl={{ preserveDrawingBuffer: true }}
                 dpr={[1, 2]}
             >
+                {/* Atmospheric fog for depth */}
+                <fog attach="fog" args={['#050816', 5, 15]} />
+
                 <Suspense fallback={null}>
                     {children}
                 </Suspense>

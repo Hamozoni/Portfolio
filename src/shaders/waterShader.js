@@ -47,17 +47,21 @@ export const waterVertexShader = `
     // Distance from mouse
     float distanceFromMouse = distance(uv, uMouse);
     
-    // Create ripple effect from mouse
+    // Create ripple effect from mouse with multiple frequencies
     float mouseRipple = sin(distanceFromMouse * 15.0 - uTime * 3.0) * 0.03;
+    mouseRipple += sin(distanceFromMouse * 25.0 - uTime * 4.0) * 0.015;
     mouseRipple *= smoothstep(0.5, 0.0, distanceFromMouse);
     
-    // Flowing water waves
+    // Flowing water waves with multiple octaves
     float wave1 = sin(pos.x * 2.0 + uTime * 0.5) * 0.02;
     float wave2 = sin(pos.y * 1.5 - uTime * 0.3) * 0.015;
+    float wave3 = sin((pos.x + pos.y) * 1.8 + uTime * 0.4) * 0.012;
     
-    // Noise for organic movement
+    // Multiple noise layers for organic movement
     float noise1 = snoise(vec2(pos.x * 3.0 + uTime * 0.2, pos.y * 3.0)) * 0.01;
     float noise2 = snoise(vec2(pos.x * 1.5 - uTime * 0.15, pos.y * 2.0 + uTime * 0.1)) * 0.015;
+    float noise3 = snoise(vec2(pos.x * 5.0 + uTime * 0.3, pos.y * 4.0 - uTime * 0.2)) * 0.008;
+    float noise4 = snoise(vec2(pos.x * 8.0 - uTime * 0.1, pos.y * 6.0 + uTime * 0.15)) * 0.005;
     
     // Mouse influence - pull vertices towards mouse
     vec2 toMouse = uMouse - uv;
@@ -65,8 +69,8 @@ export const waterVertexShader = `
     mousePull = smoothstep(0.3, 0.0, mousePull) * 0.05;
     pos.xy += toMouse * mousePull;
     
-    // Combine all effects
-    float elevation = wave1 + wave2 + noise1 + noise2 + mouseRipple;
+    // Combine all effects with additional detail
+    float elevation = wave1 + wave2 + wave3 + noise1 + noise2 + noise3 + noise4 + mouseRipple;
     pos.z += elevation * uIntensity;
     
     vElevation = elevation;
@@ -89,20 +93,28 @@ export const waterFragmentShader = `
     float distanceFromMouse = distance(vUv, uMouse);
     float mouseGlow = smoothstep(0.3, 0.0, distanceFromMouse) * 0.4;
     
-    // Color based on elevation (shallow = lighter, deep = darker)
-    vec3 waterColor = mix(uColorDeep, uColorShallow, vElevation * 3.0 + 0.5);
+    // Color based on elevation with smoother mixing
+    float colorMix = clamp(vElevation * 4.0 + 0.5, 0.0, 1.0);
+    vec3 waterColor = mix(uColorDeep, uColorShallow, colorMix);
     
-    // Add shimmer effect
+    // Add foam/highlights on wave peaks
+    float foam = smoothstep(0.02, 0.03, vElevation) * 0.3;
+    waterColor += vec3(foam);
+    
+    // Enhanced shimmer effect with multiple frequencies
     float shimmer = sin(vUv.x * 20.0 + uTime * 2.0) * 0.05;
     shimmer += sin(vUv.y * 15.0 - uTime * 1.5) * 0.03;
+    shimmer += sin((vUv.x + vUv.y) * 25.0 + uTime * 3.0) * 0.02;
     
     waterColor += shimmer;
     waterColor += mouseGlow;
     
-    // Subtle transparency gradient
-    float alpha = 0.85 - distanceFromMouse * 0.2;
+    // Improved transparency gradient
+    float alpha = 0.88 - distanceFromMouse * 0.15;
+    alpha = clamp(alpha, 0.7, 0.95);
     
     gl_FragColor = vec4(waterColor, alpha);
   }
 `
+
 
