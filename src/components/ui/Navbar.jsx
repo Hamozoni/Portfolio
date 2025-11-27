@@ -3,7 +3,11 @@ import { Link } from 'react-scroll'
 import { Menu, X } from 'lucide-react'
 import { useTranslation } from '../../context/TranslationContext'
 import ThemeSwitcher from './ThemeSwitcher'
-import LanguageSwitcher from './LanguageSwitcher'
+import LanguageSwitcher from './LanguageSwitcher';
+
+
+
+import logo from '../../assets/1763919627757.jpeg'
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false)
@@ -42,10 +46,10 @@ const Navbar = () => {
                         window.scrollTo(0, 0)
                     }}
                 >
-                    <p className="text-white text-[18px] font-bold cursor-pointer flex">
-                        Hamozoni &nbsp;
-                        <span className="sm:block hidden">| 3D Portfolio</span>
-                    </p>
+                    {/* <p className="text-white text-[18px] font-bold cursor-pointer flex">
+                        Hamozoni
+                    </p> */}
+                    <img src={logo} alt="logo" className="w-9 h-9 object-contain" />
                 </Link>
 
                 <ul className="list-none hidden sm:flex flex-row gap-8">
