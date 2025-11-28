@@ -25,6 +25,7 @@ const Navbar = () => {
         { name: copy.nav.about, to: 'about' },
         { name: copy.nav.experience, to: 'experience' },
         { name: copy.nav.projects, to: 'projects' },
+        { name: copy.nav.reviews, to: 'reviews' },
         { name: copy.nav.contact, to: 'contact' },
     ]
 

@@ -6,6 +6,8 @@ const translations = {
       experience: 'Experience',
       projects: 'Projects',
       contact: 'Contact',
+      contact: 'Contact',
+      reviews: 'Reviews',
       cta: "Let's talk",
     },
     hero: {
@@ -148,6 +150,33 @@ const translations = {
           source: 'https://github.com/hamozoni/atlas-trails',
         },
       ],
+    },
+    reviews: {
+      title: "Testimonials.",
+      label: "What others say",
+      items: [
+        {
+          name: "Sara Lee",
+          role: "CFO",
+          company: "Acme Co",
+          image: "https://randomuser.me/api/portraits/women/4.jpg",
+          testimonial: "I thought it was impossible to make a website as beautiful as our product, but Hamozoni proved me wrong."
+        },
+        {
+          name: "Chris Brown",
+          role: "COO",
+          company: "DEF Corp",
+          image: "https://randomuser.me/api/portraits/men/5.jpg",
+          testimonial: "I've never met a web developer who truly cares about their clients' success like Hamozoni does."
+        },
+        {
+          name: "Lisa Wang",
+          role: "CTO",
+          company: "456 Enterprises",
+          image: "https://randomuser.me/api/portraits/women/6.jpg",
+          testimonial: "After Hamozoni optimized our website, our traffic increased by 50%. We can't thank them enough!"
+        }
+      ]
     },
     contact: {
       label: 'Get in touch',
@@ -360,6 +389,8 @@ const translations = {
       experience: 'الخبرات',
       projects: 'المشاريع',
       contact: 'تواصل',
+      contact: 'تواصل',
+      reviews: 'آراء العملاء',
       cta: 'دعنا نتحدث',
     },
     hero: {
@@ -502,6 +533,33 @@ const translations = {
           source: 'https://github.com/hamozoni/atlas-trails',
         },
       ],
+    },
+    reviews: {
+      title: "آراء العملاء.",
+      label: "ماذا يقول الآخرون",
+      items: [
+        {
+          name: "سارة لي",
+          role: "المدير المالي",
+          company: "شركة أكمي",
+          image: "https://randomuser.me/api/portraits/women/4.jpg",
+          testimonial: "اعتقدت أنه من المستحيل إنشاء موقع ويب جميل مثل منتجنا، لكن حموزوني أثبت خطئي."
+        },
+        {
+          name: "كريس براون",
+          role: "المدير التنفيذي للعمليات",
+          company: "شركة DEF",
+          image: "https://randomuser.me/api/portraits/men/5.jpg",
+          testimonial: "لم أقابل أبداً مطور ويب يهتم حقاً بنجاح عملائه مثل حموزوني."
+        },
+        {
+          name: "ليسا وانغ",
+          role: "المدير التقني",
+          company: "مشاريع 456",
+          image: "https://randomuser.me/api/portraits/women/6.jpg",
+          testimonial: "بعد أن قام حموزوني بتحسين موقعنا، زادت حركة المرور بنسبة 50٪. لا يمكننا شكرهم بما فيه الكفاية!"
+        }
+      ]
     },
     contact: {
       label: 'تواصل معي',

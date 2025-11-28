@@ -2,6 +2,7 @@ import { BrowserRouter } from 'react-router-dom'
 import { useEffect } from 'react'
 import About from './components/ui/About'
 import Projects from './components/ui/Projects'
+import Reviews from './components/ui/Reviews'
 import Contact from './components/ui/Contact'
 import Experience from './components/ui/Experience'
 import Footer from './components/ui/Footer'
@@ -66,6 +67,7 @@ function App() {
           <About />
           <Experience />
           <Projects />
+          <Reviews />
           <Contact />
           <Footer />
         </div>

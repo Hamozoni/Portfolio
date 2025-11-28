@@ -23,11 +23,12 @@ const Fish = ({ position, index, sharkPosition }) => {
             fleeDirection.normalize()
             targetPos.current.add(fleeDirection.multiplyScalar(0.2))
         } else {
-            // Normal schooling behavior - circular motion
+            // Normal schooling behavior - vertical circular motion
             const radius = 3 + index * 0.3
             const speed = 0.5 + index * 0.05
-            targetPos.current.x = Math.sin(time * speed + index) * radius
-            targetPos.current.y = Math.cos(time * speed * 0.8 + index) * 1.5
+            // Swim in a vertical circle (Y/Z plane) with some X variation
+            targetPos.current.x = Math.sin(time * speed * 0.5 + index) * 2
+            targetPos.current.y = Math.sin(time * speed + index) * radius
             targetPos.current.z = Math.cos(time * speed + index) * radius - 5
         }
 
@@ -43,10 +44,13 @@ const Fish = ({ position, index, sharkPosition }) => {
         fish.position.y = THREE.MathUtils.clamp(fish.position.y, -5, 5)
         fish.position.z = THREE.MathUtils.clamp(fish.position.z, -8, -2)
 
-        // Rotate to face movement direction
-        if (velocity.current.length() > 0.01) {
-            const targetAngle = Math.atan2(velocity.current.x, velocity.current.z)
-            fish.rotation.y = THREE.MathUtils.lerp(fish.rotation.y, targetAngle, 0.1)
+        // Rotate to face movement direction (3D rotation including pitch)
+        if (velocity.current.length() > 0.001) {
+            const dummy = new THREE.Object3D()
+            dummy.position.copy(fish.position)
+            // Look at where we are going (position + velocity)
+            dummy.lookAt(fish.position.clone().add(velocity.current))
+            fish.quaternion.slerp(dummy.quaternion, 0.1)
         }
 
         // Tail wagging
@@ -60,9 +64,9 @@ const Fish = ({ position, index, sharkPosition }) => {
 
     return (
         <group ref={fishRef} position={position}>
-            {/* Fish body */}
+            {/* Fish body - Angelfish shape (flattened vertical disk) */}
             <mesh castShadow receiveShadow>
-                <capsuleGeometry args={[0.1, 0.4, 16, 32]} />
+                <cylinderGeometry args={[0.4, 0.2, 0.05, 16]} />
                 <meshStandardMaterial
                     color="#ff9500"
                     roughness={0.3}
@@ -72,9 +76,9 @@ const Fish = ({ position, index, sharkPosition }) => {
                 />
             </mesh>
 
-            {/* Fish head */}
+            {/* Fish head - merged into body shape */}
             <mesh position={[0, 0, 0.25]} rotation={[Math.PI / 2, 0, 0]} castShadow>
-                <coneGeometry args={[0.09, 0.15, 12]} />
+                <coneGeometry args={[0.2, 0.15, 12]} />
                 <meshStandardMaterial
                     color="#ff9500"
                     roughness={0.3}
@@ -82,9 +86,21 @@ const Fish = ({ position, index, sharkPosition }) => {
                 />
             </mesh>
 
-            {/* Top fin */}
-            <mesh position={[0, 0.15, 0]} rotation={[0, 0, 0]} castShadow>
-                <coneGeometry args={[0.08, 0.2, 8]} />
+            {/* Top fin - tall and elegant */}
+            <mesh position={[0, 0.25, -0.1]} rotation={[-0.2, 0, 0]} castShadow>
+                <coneGeometry args={[0.05, 0.6, 8]} />
+                <meshStandardMaterial
+                    color="#ff6b00"
+                    roughness={0.2}
+                    metalness={0.7}
+                    transparent
+                    opacity={0.8}
+                />
+            </mesh>
+
+            {/* Bottom fin - mirroring top */}
+            <mesh position={[0, -0.25, -0.1]} rotation={[0.2, 0, 0]} castShadow>
+                <coneGeometry args={[0.05, 0.6, 8]} />
                 <meshStandardMaterial
                     color="#ff6b00"
                     roughness={0.2}
@@ -95,19 +111,19 @@ const Fish = ({ position, index, sharkPosition }) => {
             </mesh>
 
             {/* Side fins */}
-            <mesh position={[-0.08, 0, 0.1]} rotation={[0, 0, -Math.PI / 4]} castShadow>
+            <mesh position={[-0.05, 0, 0.1]} rotation={[0, 0, -Math.PI / 4]} castShadow>
                 <boxGeometry args={[0.02, 0.15, 0.1]} />
                 <meshStandardMaterial color="#ff9500" transparent opacity={0.7} />
             </mesh>
-            <mesh position={[0.08, 0, 0.1]} rotation={[0, 0, Math.PI / 4]} castShadow>
+            <mesh position={[0.05, 0, 0.1]} rotation={[0, 0, Math.PI / 4]} castShadow>
                 <boxGeometry args={[0.02, 0.15, 0.1]} />
                 <meshStandardMaterial color="#ff9500" transparent opacity={0.7} />
             </mesh>
 
-            {/* Tail - animated */}
-            <group ref={tailRef} position={[0, 0, -0.25]}>
-                <mesh rotation={[0, 0, 0]} castShadow>
-                    <boxGeometry args={[0.02, 0.2, 0.15]} />
+            {/* Tail - fan shaped */}
+            <group ref={tailRef} position={[0, 0, -0.1]}>
+                <mesh rotation={[Math.PI / 2, 0, 0]} castShadow>
+                    <cylinderGeometry args={[0.15, 0.05, 0.02, 8]} />
                     <meshStandardMaterial
                         color="#ff6b00"
                         transparent
